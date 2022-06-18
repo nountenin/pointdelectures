@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{%load crispy_forms_tags%}
+{% load static%}
+{% block content %}
+
+<h1>formulaire de contact</h1>
+<div class="container">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class=" offset-3 col-md-5 col-sm-5">
+                {{contact.nom_complet | as_crispy_field}}
+            </div>
+            <div class="offset-3  col-md-5 col-sm-5">
+                {{contact.mail_contact | as_crispy_field}}
+            </div>
+            <div class="offset-3  col-md-5 col-sm-5">
+                {{contact.subject | as_crispy_field}}
+            </div>
+            <div class="offset-3 col-md-5 col-sm-5">
+                {{contact.message | as_crispy_field}}
+            </div>
+            <div class="offset-3 col-md-3 col-sm-3">
+                <button type="submit" class="btn btn-secondary">Envoyer</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

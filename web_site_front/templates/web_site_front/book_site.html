@@ -1,0 +1,294 @@
+<!-- FAQ & Contact Form Start -->
+{% extends 'web_site_front/base_site.html' %}
+{% load static%}
+
+{% block sub_header_site %}
+{% include 'web_site_front/sub_header_site.html' %}
+{% endblock %}
+
+{% block contenu %}
+    <!-- Quick View Modal Start -->
+    <div class="modal fade andro_quick-view-modal" id="livre_details" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="close-btn close-dark close" data-dismiss="modal">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <img src="assets/img/products/9.png" alt="product">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="andro_product-single-content">
+                                    <div class="andro_rating-wrapper">
+                                        <div class="andro_rating">
+                                            <i class="fa fa-star active"></i>
+                                            <i class="fa fa-star active"></i>
+                                            <i class="fa fa-star active"></i>
+                                            <i class="fa fa-star active"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <span>4 Stars</span>
+                                    </div>
+                                    <h3>History Books </h3>
+                                    <div class="andro_product-price">
+                                        <span>8$</span>
+                                        <span>14$</span>
+                                    </div>
+                                    <p class="andro_product-excerpt">Cras ultricies ligula sed magna dictum porta. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
+                                    <form class="andro_product-atc-form">
+                                        <div class="andro_product-variation-wrapper">
+                                            <div class="form-group">
+                                                <select class="form-control" name="amount">
+                                                    <option value="">Select Amount</option>
+                                                    <option value="1">1 Piece</option>
+                                                    <option value="2">2 Pieces</option>
+                                                    <option value="3">3 Pieces</option>
+                                                    <option value="4">4 Pieces</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-control" name="breed">
+                                                    <option value="">Select a Breed</option>
+                                                    <option value="italian">Italian</option>
+                                                    <option value="egyptian">Egyptian</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="qty-outter">
+                                            <a href="product-single.html" class="andro_btn-custom">Buy Now</a>
+                                            <div class="qty">
+                                                <span class="qty-subtract"><i class="fa fa-minus"></i></span>
+                                                <input type="text" name="qty" value="1">
+                                                <span class="qty-add"><i class="fa fa-plus"></i></span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Start -->
+    <div class="section">
+        <div class="andro_section-fw">
+            <div class="row">
+                <div class="col-lg-9">
+                    <!-- Product Count & Orderby Start -->
+                    <div class="andro_shop-global">
+                        <p>Showing <b>20</b> of <b>320</b> products </p>
+                        <form method="post">
+                            <select class="form-control" name="orderby">
+                                <option value="default">Default sorting</option>
+                                <option value="latest">Latest release</option>
+                                <option value="price-down">Price: High - Low</option>
+                                <option value="price-up">Price: Low - High</option>
+                                <option value="popularity">Popularity Sorting</option>
+                            </select>
+                        </form>
+                    </div>
+                    <!-- Product Count & Orderby End -->
+                    <div class="row masonry" id="ici">
+                        <!-- Product Start -->
+
+                        {% for b in page.object_list %}
+                        <div class="col-md-3 col-sm-4 col-12 masonry-item " >
+                            <div class="andro_product andro_product-minimal andro_product-has-controls andro_product-has-buttons">
+                                <div class="andro_product-badge andro_badge-featured">
+                                    <i class="fa fa-star"></i>
+                                    <span>{{b.category}}</span>
+                                </div>
+                                <div class="andro_product-thumb">
+                                    <a href="{%url 'detailsBook_site' b.pk %}" routerLink="books"><img src="{{ b.img1_book.url}}" style="height: 150px" alt="product"></a>
+                                </div>
+                                <div class="andro_product-body">
+                                    <h6 class="andro_product-title" >
+                                        <a class="text-dark " style="font-size:.8rem" href="{%url 'detailsBook_site' b.pk %}">{{ b.title_book|truncatechars:20}}</a>
+                                    </h6>
+                                    <div class="andro_rating-wrapper">
+                                        <div class="andro_rating">
+                                            {% with n=b.note.note__avg|floatformat:0 %}
+                                           {% for i in '12345'|make_list %}
+
+                                                   <i class="fa fa-star {% if forloop.counter|slugify <= n %}checked{%endif%}"></i>
+                                            {% endfor %}
+                                            {%endwith%}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="andro_product-footer">
+                                    <div class="andro_product-buttons">
+                                        <a href="{%url 'detailsBook_site' b.pk %}" class="andro_btn-custom light">Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <!-- Product End -->
+                        <!-- Product End -->
+                    </div>
+                    <!-- Pagination Start -->
+                    <ul class="pagination">
+                        {% if page.has_previous%}
+                            {%if trie %}
+                                <li class="page-item"><a class="page-link" href="{% url 'book_site_sort' cat%}?page={{page.previous_page_number}}"><i class="fa fa-angle-double-left"></i></a></li>
+                            {% else %}
+                               <li class="page-item"><a class="page-link" href="{% url 'book_site'%}?page={{page.previous_page_number}}"><i class="fa fa-angle-double-left"></i></a></li>
+                            {%endif%}
+                        {%endif%}
+                        <li class="page-item active">
+                            <a class="page-link" href="{% url 'book_site'%}?page={{page.number}}">{{page.number}} <span class="sr-only">(current)</span></a>
+                        </li>
+                        {% if page.has_next%}
+                            {%if trie %}
+                            <li class="page-item"><a class="page-link" href="{% url 'book_site_sort' cat%}?page={{page.next_page_number}}"><i class="fa fa-angle-double-right"></i></a></li>
+                            {% else %}
+                               <li class="page-item"><a class="page-link" href="{% url 'book_site'%}?page={{page.next_page_number}}"><i class="fa fa-angle-double-right"></i></a></li>
+                            {%endif%}
+                        {%endif%}
+                    </ul>
+                    <!-- Pagination End -->
+                </div>
+                <!-- Sidebar Start -->
+                <div class="col-lg-3">
+                    <div class="sidebar">
+                        <!-- Search Start -->
+                        <div class="sidebar-widget widget-search">
+                            <form method="post" action="{% url 'book_site_search' %}">
+                                {% csrf_token %}
+                                <div class="andro_search-adv-input">
+                                    <input type="text" class="form-control" placeholder="Rechercher un livre " name="search" value="">
+                                    <button type="submit" name="button"><i class="fa fa-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Search End -->
+                        <!-- Filter: Categories Start -->
+                        <div class="sidebar-widget">
+                            <h5 class="widget-title"> Categories </h5> 
+                            <ul class="sidebar-widget-list">
+                                {% if messages %}
+                                {%for m in messages%}
+                                    <span class="text-danger">{{m}}</span>
+                                {%endfor%}
+                                {%endif%}
+                               <div class="boutons">
+                                    <a class="btn" href="{%url 'book_site'%}" id="searching"><i class="fa fa-sort" style="color:#fff"></i></a>
+                               </div>
+                                {%for c in category%}
+                                <li>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="radio" {%if c.name_category in cat%} checked {%endif%} class="trier" id="{{c.name_category}}" name="exemple" onclick='sele("{{c.name_category}}")' value="{{c.name_category}}">
+                                        <label class="" for="{{c.name_category}}">{{ c.name_category }}</label>
+                                    </div>
+                                </li>
+                                {%endfor%}
+                            </ul>
+                        </div>
+                        <!-- Filter: Categories End -->
+
+                        <!-- Filter: Condition Start 2 -->
+<!--                        <div class="sidebar-widget">-->
+<!--                            <h5 class="widget-title"> Condition </h5>-->
+<!--                            <ul class="sidebar-widget-list">-->
+<!--                                <li>-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="customCheck7">-->
+<!--                                        <label class="custom-control-label" for="customCheck7">Daily Deal</label>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <div class="custom-control custom-checkbox">-->
+<!--                                        <input type="checkbox" class="custom-control-input" id="customCheck8">-->
+<!--                                        <label class="custom-control-label" for="customCheck8">On Sale</label>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+                        <!-- Filter: Condition End -->
+                        <!-- Filter: State Start -->
+                        <div class="sidebar-widget">
+                            <h5 class="widget-title"> Mieux notés! </h5>
+                            <ul class="sidebar-widget-list">
+                                <li>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck9">
+                                        <label class="custom-control-label" for="customCheck9">Fiction Life</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck10">
+                                        <label class="custom-control-label" for="customCheck10">Whole Politics & Affairss</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck11">
+                                        <label class="custom-control-label" for="customCheck11">Shrubbery co.</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck12">
+                                        <label class="custom-control-label" for="customCheck12">Better Life</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck13">
+                                        <label class="custom-control-label" for="customCheck13">Booka</label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Filter: State End -->
+<!--                        &lt;!&ndash; Filter: Freshness Start &ndash;&gt;-->
+<!--                        <div class="sidebar-widget">-->
+<!--                            <h5 class="widget-title"> Freshness </h5>-->
+<!--                            <input type="text" class="js-range-slider" name="freshness_range" value="" data-type="double" data-min="0" data-max="10" data-from="4" data-to="6" data-grid="true" data-postfix=" days" />-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Filter: Freshness End &ndash;&gt;-->
+<!--                        &lt;!&ndash; Filter: Price Start &ndash;&gt;-->
+<!--                        <div class="sidebar-widget">-->
+<!--                            <h5 class="widget-title"> Price </h5>-->
+<!--                            <input type="text" class="js-range-slider" name="freshness_range" value="" data-type="double" data-min="0" data-max="500" data-from="10" data-to="100" data-grid="true" data-postfix=" $" />-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Filter: Price End &ndash;&gt;-->
+                    </div>
+                </div>
+                <!-- Sidebar End -->
+            </div>
+        </div>
+    </div>
+<style>
+       .checked {
+      color: orange !important;
+    }
+
+    .helloHover {
+      color: rgb(255, 205, 111) !important;
+    }
+
+    .hello {
+      cursor: pointer !important;
+    }
+</style>
+    <!-- Products End -->
+{% endblock %}
+{% block custom_js %}
+<script>
+    function sele(cate){
+        $('#searching').attr('href',`{%url 'book_site_sort' 1%}${cate}`)
+    }
+    
+</script>
+{%endblock%}

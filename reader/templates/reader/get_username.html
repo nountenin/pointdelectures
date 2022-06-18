@@ -1,0 +1,64 @@
+{% extends 'reader/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div
+  id="login_body"
+  style="
+  background-image: url('{% static 'images/bg1.jpg'%}') !important;"
+>
+  <a class="hiddenanchor" id="signup"></a>
+  <a class="hiddenanchor" id="signin"></a>
+
+  <div class="login_wrapper">
+    <div class="">
+      <section class="login_content">
+         <div class="col-md-12 col-sm-12">
+                {% if messages %}
+                <ol>
+                    {% for message in messages %}
+                    <li class="text-white h6 {%if message.level == 25 %}message alert alert-success {%elif message.level == 40 %} message alert alert-danger {% endif %}">
+                        {{message}}
+                    </li>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+            </div>
+        <form action="{% url 'username' %}" method="POST">
+          {% csrf_token %}
+            <div class="row">
+                    <div class="col-sm-12 col-md-12"><h2>Donner votre nom d'utilisateur</h2></div>
+                      <div class="col-md-8  col-sm-8">
+                          {{form.username |as_crispy_field}}
+                     </div>
+                    <div class="col-md-3 col-sm-3">
+                        <button class="btn btn-secondary" type="submit">VAlider</button>
+                    </div>
+
+                </div>
+
+          <div class="clearfix"></div>
+
+          <div class="separator">
+            <div class="clearfix"></div>
+            <br />
+           <div>
+
+              <h1><i class="fa fa-paw"></i> Point de Lectures Guinée</h1>
+              <p>
+                ©{{ year }} Tous les droits sont réservés, Développé  par AltGras.
+              </p>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+  const date = new Date;
+  const year = date.getFullYear();
+</script>
+{% endblock content %}
+
+

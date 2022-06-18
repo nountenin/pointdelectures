@@ -1,0 +1,59 @@
+{% extends 'reader/base.html' %}
+{% load static %}
+{% block content %}
+<div
+  id="login_body"
+  style="
+  background-image: url('{% static 'images/bg1.jpg'%}') !important;"
+>
+  <a class="hiddenanchor" id="signup"></a>
+  <a class="hiddenanchor" id="signin"></a>
+
+  <div class="login_wrapper">
+    <div class="">
+      <section class="login_content">
+         <div class="col-md-12 col-sm-12">
+                {% if messages %}
+                <ol>
+                    {% for message in messages %}
+                    <li class="text-white h6 {%if message.level == 25 %}message alert alert-success {%elif message.level == 40 %} message alert alert-danger {% endif %}">
+                        {{message}}
+                    </li>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+            </div>
+        <form action="{% url 'login' %}" method="POST">
+          <h1>CONNEXION</h1>
+          {% csrf_token %} {{ form }}
+          <div>
+            <button type="submit" class="btn btn-primary">Se connecter</button>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <div class="separator">
+            <div class="clearfix"></div>
+            <br />
+            <a class="btn-link text-secondary" href="{% url 'username'%}">Mot de pass oublier</a>
+
+            <div>
+                  <a href="{% url 'home_site'%}" class="">Aller vers le site</a>
+              <h1><i class="fa fa-paw"></i> Point de Lectures Guinée</h1>
+              <p>
+                ©{{ year }} Tous les droits sont réservés, Développé  par AltGras.
+              </p>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+  const date = new Date;
+  const year = date.getFullYear();
+</script>
+{% endblock content %}
+
+

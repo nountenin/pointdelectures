@@ -1,0 +1,92 @@
+{% extends 'web_site_front/base_site.html' %}
+{% load static%}
+
+{% block sub_header_site %}
+{% include 'web_site_front/sub_header_site.html' %}
+{% endblock %}
+
+{% block contenu %}
+ <!-- Products Start -->
+    <div class="section">
+        <div class="container">
+            <!-- Product Count & Orderby Start -->
+<!--            <div class="andro_shop-global">-->
+<!--                <p>Showing <b>20</b> of <b>320</b> products </p>-->
+<!--                <form method="post">-->
+<!--                    <select class="form-control" name="orderby">-->
+<!--                        <option value="default">Default sorting</option>-->
+<!--                        <option value="latest">Latest release</option>-->
+<!--                        <option value="price-down">Price: High - Low</option>-->
+<!--                        <option value="price-up">Price: Low - High</option>-->
+<!--                        <option value="popularity">Popularity Sorting</option>-->
+<!--                    </select>-->
+<!--                </form>-->
+<!--            </div>-->
+            <!-- Product Count & Orderby End -->
+            <div class="row">
+                <!-- Product Start -->
+                {%for book in page.object_list%}
+                <div class="col-md-4 col-sm-6">
+                    <div class="andro_product andro_product-has-controls">
+                        <div class="andro_product-badge andro_badge-featured">
+                            <i class="fa fa-star"></i>
+                            <span>{{book.category}}</span>
+                        </div>
+                        <div class="andro_product-thumb">
+                            <a href="{%url 'detailsBook_site' book.pk %}"><img src="{{book.img1_book.url}}" class="img_fluid" style="width:100%;height:200px" alt="product"></a>
+                        </div>
+                        <div class="andro_product-body">
+                            <h5 class="andro_product-title"> <a href="{%url 'detailsBook_site' book.pk %}">{{book.title_book}}</a> </h5>
+
+                            <p>{{book.resume_book|truncatechars:20}}</p>
+                             <div class="andro_rating-wrapper">
+                                     {% with n=book.note.note__avg|floatformat:0 %}
+                            <div class="andro_rating">
+                               {% for i in '12345'|make_list %}
+
+
+                                       <i class="fa fa-star {% if forloop.counter|slugify <= n %}checked{%endif%}"></i>
+                                {% endfor %}
+
+                                 <p>{{book.resume_book|slice:":50"}}</p>
+                            </div>
+
+                            <span>
+                                    {%if n %}
+                                    {%else%}
+                                        0
+                                    {%endif%}
+                                Stars</span>
+                            {%endwith%}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Product End -->
+                {%endfor%}
+
+            </div>
+           <!-- Pagination Start -->
+                    <ul class="pagination">
+                        {% if page.has_previous%}
+                               <li class="page-item"><a class="page-link" href="{%url 'point_livre' id%}?page={{page.previous_page_number}}"><i class="fa fa-angle-double-left"></i></a></li>
+
+                        {%endif%}
+                        <li class="page-item active">
+                            <a class="page-link" href="{% url 'point_livre' id%}?page={{page.number}}">{{page.number}} <span class="sr-only">(current)</span></a>
+                        </li>
+                            {% if page.has_next%}
+                               <li class="page-item"><a class="page-link" href="{% url 'point_livre' id%}?page={{page.next_page_number}}"><i class="fa fa-angle-double-right"></i></a></li>
+
+                        {%endif%}
+                    </ul>
+            <!-- Pagination End -->
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}

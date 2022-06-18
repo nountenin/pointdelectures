@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{%load crispy_forms_tags%}
+{% load static%}
+
+{% block content %}
+
+<div class="x_panel">
+    <div class="d-flex justify-content-between container">
+<h2><a href="{% url 'books'%}"><i class="fa fa-reply"></i></a> | {{ tooltip }}</h2>
+<a href="{% url 'books'%}" class="btn btn-primary">Terminée</a></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            {% if messages %}
+            {% for message in messages %}
+            <span class="x_panel  text-white h6 {%if message.level == 25 %}message alert alert-success {%elif message.level == 40 %} message alert alert-danger {% endif %}">
+                                {{message}}
+                          </span>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <form action="{% url 'add-user' %}"  id="demo-form" method="post">
+            {% csrf_token %}
+
+            <div class="col-md-12 row">
+                {{ form | crispy }}
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger" type="reset">Effacer le formualaire <i class="fa fa-remove"></i></button>
+                <button class="btn btn-primary" type="submit">Enregistrer <i class="fa fa-save"></i></button>
+
+            </div>
+
+
+    </form>
+        </div>
+</div>
+{% endblock content %}

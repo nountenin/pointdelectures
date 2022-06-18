@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="col-md-12 col-sm-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>{{ tooltip }}</h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            {% if messages %}
+                <div class="col-md-12">
+                    {% for m in messages %}
+                        <span class="alert alert-success">{{ m }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table table-striped jambo_table bulk_action" id="datatable">
+                    <thead>
+                    <tr class="headings text-center">
+                        <th class="column-title">E-mail</th>
+                        <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for e in email %}
+                        <tr>
+                            <td>{{ e.emails }}</td>
+                            <td><a class="btn btn-danger p-2" href="{% url 'delete_email' e.pk %}"><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

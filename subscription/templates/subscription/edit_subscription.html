@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- table -->
+<div class="col-md-12 col-sm-12  ">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><a href="{% url 'subscriptions' %}"><span class="fa fa-reply text-primary me-5"></span></a> |
+                {{tooltip}} </h2>
+            <div class="clearfix"></div>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <span class="x_panel  text-white h6 {%if message.level == 40 %}message alert alert-danger{% endif %}">
+                                {{message}}
+                          </span>
+        {% endfor %}
+        {% endif %}
+        <div class="x_content">
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12  ">
+
+                    <form class="form-horizontal form-label-left" method="post">
+                        {% csrf_token %}
+
+                        <div class="container d-flex justify-content-center">
+
+                           <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                {{ form | crispy }}
+                            </div>
+                            <div class="col-12  col-sm-12 ">
+                                        <select class="form-control" id="reader" name="reader">
+                                            <option value="">Sélectionnez un lecteur</option>
+                                            {%for read in reader%}
+                                            <option  value="{{read.pk}}" {% if read.pk == reader_selected  %}selected{%endif%} >Nom:
+                                                {{read.first}} Prenom: {{read.last_name}} tel:{{read.phone1_reader}}
+                                            </option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+
+                           </div>
+
+                        </div>
+                        <div class="hr">
+                            <hr class="hr"></div>
+                        <div class="row">
+                             <div class="col-md-9 mt-3 text-right">
+
+                                <a  class="btn btn-sm btn-danger" href="{% url 'subscriptions' %}">
+                                    Fermer
+                                </a>
+                                <button class="btn btn-sm btn-primary" type="submit">Enregistrer</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+</div>
+</div>
+
+
+<!--fin table-->
+{% endblock content %}

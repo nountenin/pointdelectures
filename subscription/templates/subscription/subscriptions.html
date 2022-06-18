@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1 xmlns="http://www.w3.org/1999/html"> {{ tooltip }}</h1>
+<hr>
+
+<!-- table -->
+<div class="col-md-12 col-sm-12  ">
+    <div class="x_panel">
+       <div class="row x_title">
+            <div class="col-md-9 col-sm-12 col-lg-10 h2">
+                Lites des Abonnés
+            </div>
+            <div class="col-md-3 col-sm-12 col-lg-2">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        {%if add%}
+        <ul class="nav navbar-left panel_toolbox">
+            <div class="t">
+                            <a class="btn btn-sm btn-info-outline " href="{%url 'printSubscription'%}" ><i class="fa fa-print text-info mr-2"></i>Imprimer</a>
+                        </div>
+            <button class="btn btn-sm" title="Ajouter un Abonné" data-target="#add" data-toggle="modal">
+                <i class="fa fa-plus text-success mr-2"></i>Ajouter un Abonné</button>
+            </li>
+        </ul>
+        {%endif%}
+        <div class="">
+            {% if messages %}
+            {% for message in messages %}
+            <span class="x_panel  text-white h6 {%if message.level == 25 %}message alert alert-success{% endif %}">
+                                {{message}}
+                </span>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="clearfix"></div>
+        {%if voir%}
+        <div class="x_content">
+
+            <div class="row">
+                <table class="table table-striped table-bordered jambo_table bulk_action" id="datatable-responsive"
+                       style="width:100%">
+                    <thead>
+                    <tr class="headings">
+                        <th class="column-title">#</th>
+                        <th class="column-title">Abonnés</th>
+                        <th class="column-title">Date d'abonnement</th>
+                        <th class="column-title">Fin abonnement</th>
+                        <th class="column-title">Etat</th>
+                        <th class="column-title">Statut</th>
+                        <th class="column-title no-link text-center last"><span class="nobr">Action</span>
+                        </th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for li in listes %}
+                    <tr class="even pointer">
+
+                         <td class=" ">{{ forloop.counter }}</td>
+                        <td class=" ">{{li.reader.first_name }} {{li.reader.last_name }}</td>
+                        <td class=" ">{{li.start_subscription}}</td>
+                        <td class=" ">{{li.end_subscription}}</td>
+                        {% if li.nb_jour > 0 %}
+                        <td class="text-success">Expire dans : {{li.nb_jour}} jours</td>
+                        <td class="text-success text-center"><i class="fa fa-check"></i></td>
+                        {% else %}
+                        <td class="text-danger">Expiré</td>
+                        <td class="text-danger text-center"><i class="fa fa-circle"></i></td>
+                        {% endif %}
+
+                        <td class=" last text-center">
+                            <a class="carte" href="{% url 'carte' li.pk %}" title="Carte de lecteur">
+                                <i class="fa fa-credit-card btn text-dark"></i>
+                            </a>
+
+                            {% if li.nb_jour > 0 %}
+                            {%if change%}
+                            <a class="editer" data-bs-target="#edit" data-bs-toggle="modal"
+                               href="{% url 'modifier' li.pk %}" title="Modifications">
+                                <i class="fa fa-edit btn text-primary"></i>
+                            </a>
+                            {%endif%}
+                            {% else %}
+                            {%if add%}
+                            <a href="{% url 'resubscriptions' li.pk %}" title="Réabonnement">
+                                <i class="fa fa-reply btn text-warning"></i>
+                            </a>
+                            {%endif%}
+                            {% endif %}
+                            {%if delete%}
+                            <a class="supprimer" data-id="{{li.pk}}" href="#" title="Supprimer"><i
+                                    class="fa fa-trash btn text-danger"></i></a>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {%endif%}
+
+    </div>
+
+</div>
+</div>
+</div>
+<!--fin table-->
+<!--ajouter-->
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="add" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ajout d'un abonnement</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if messages %}
+                {% for message in messages %}
+                <span class="x_panel  text-white h6 {%if message.level == 40 %}message alert alert-danger{% endif %}">
+                                {{message}}
+                          </span>
+                {% endfor %}
+                {% endif %}
+                <form action="{% url 'subscriptions' %}" class="form-horizontal form-label-left"
+                      data-date="{% now 'd-m-Y' %}"
+                      id="fo" method="post">
+                    {% csrf_token %}
+                    <div class="form-group row ">
+                        <div class="col-md-12 col-sm-12 ">
+                            {{ form | crispy }}
+                        </div>
+                         <div class="col-12  col-sm-12 ">
+                                        <select class="form-control" id="reader" name="reader">
+                                            <option value="">Sélectionnez un lecteur</option>
+                                            {%for read in reader%}
+                                            <option  value="{{read.pk}}" {% if read.pk == reader_selected  %}selected{%endif%} >Nom:
+                                                {{read.first_name}} Prenom: {{read.last_name}} tel:{{read.phone1_reader}}
+                                            </option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button aria-label="Close" class="btn btn-sm btn-danger" data-dismiss="modal" type="button">
+                            Fermer
+                        </button>
+                        <button class="btn btn-sm btn-primary" type="submit">Enregistrer</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--fin ajout -->
+{% endblock content %}
+
+{% block script %}
+
+<script>
+  $('#ajout').on('click',function(){
+    $('#add').modal('show')
+  })
+   {% for message in messages %}
+         {% if message.level == 40 %}
+            $('#add').modal('show')
+         {% elif message.level == 20 %}
+          swal.fire({
+                    "title": "{{ message }}",
+                    "icon": "success"
+                })
+        {% endif %}
+   {% endfor %}
+  $('#modification-form').hide()
+  $('.editer').on('click', function(){
+    $('#table-form').hide()
+    $('#modification-form').show()
+  })
+  setTimeout(() => {
+ $('.message').fadeOut(1000)
+}, 10000);
+
+
+
+
+
+
+
+
+
+</script>
+{% endblock script %}
+{% block js %}
+<script>
+$('#datatable-responsive').on('click','.supprimer',function(){
+    let id = $(this).data('id')
+   swal.fire({
+            "title": "Voulez-vous vraiment supprimer cet abonnement?",
+            "icon": "question",
+            "showCancelButton": true,
+            "cancelButtonText": "Non",
+            "confirmButtonText": "Oui",
+
+        }).then(function(result){
+            if(result.isConfirmed){
+                window.location.href = "delete/"+ id
+            }
+        })
+})
+
+
+
+
+
+
+
+
+</script>
+{% endblock js%}

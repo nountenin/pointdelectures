@@ -1,0 +1,60 @@
+{% include 'head.html' %}
+<body class="nav-md" >
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            {% block left_col %}
+            {% include 'sidebar.html' %}
+            {% endblock %}
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            {% block top_nav %}
+            {% include 'top_nav.html' %}
+            {% endblock %}
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+
+        <div class="right_col" role="main">
+            {% block content %} <h1>Contenu</h1> {% endblock %}
+        </div>
+
+    </div>
+    <div>
+
+        <!-- /page content -->
+
+        <!-- footer content -->
+        {% block footer %}
+        {% include 'footer.html' %}
+        {% endblock %}
+        <!-- /footer content -->
+    </div>
+</div>
+
+{% block utilitaire %}
+{% include 'utilitaires.html' %}
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+
+{% block custom_js %}
+{% endblock custom_js %}
+
+{% block script %}
+{% endblock %}
+<script>
+setTimeout(() => {
+ $('.message').fadeOut(1000)
+}, 10000);
+$('span').click(function(){
+    alert('click')
+    console.log('hello word from details book');
+})
+</script>
+</body>
+</html>

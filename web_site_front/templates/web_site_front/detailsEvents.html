@@ -1,0 +1,32 @@
+{% extends 'web_site_front/base_site.html' %}
+{% load static%}
+
+{% block sub_header_site %}
+{% include 'web_site_front/sub_header_site.html' %}
+{% endblock %}
+
+{% block contenu %}
+<!-- Product Content Start -->
+
+<div class="section">
+    <div class="container">
+        <div class="row">
+            {%for e in events%}
+
+            <div class="shadow p-4">
+
+                    <img src="{{e.image_events.url}}" class="img-fluid " style="height:300px;float:left;padding:20px" alt="product">
+                    <h2 class="text-center"> {{e.title_events}}</h2>
+                    <div><span style="font-size:25px; font-weight:bold"> Description: </span></div>
+                    <p style="font-size:18px">  {{e.descriptions }} </p>
+                <div style="text-align:end"><span class="text-muted"> <span class="fw-600">Publication : </span> {{e.created_at }} </span></div>
+
+                <!-- Pagination Start -->
+
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,45 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+              {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger"> {{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            <form action="{% url 'login' %}" method="POST">
+              <h1>Login Form</h1>
+               {% csrf_token %}
+                {{ form |crispy }}
+              <div>
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-paw"></i> Point de Lectures</h1>
+                  <p>Point de Lectures ©2022 Tous les droits sont réservés</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+
+      </div>
+    </div>
+{% endblock content %}
+

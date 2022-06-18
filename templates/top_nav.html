@@ -1,0 +1,82 @@
+{%load static%}
+<div class="nav_menu">
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+              <nav class="nav navbar-nav">
+              <ul class=" navbar-right">
+                <li class="nav-item dropdown open" style="padding-left: 15px;">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+                   {{user.username}}
+                  </a>
+                  <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item"  href="{% url 'profile' %}"> Profile</a>
+                        {%if user.is_superuser%}
+                      <a class="dropdown-item"  href="{% static 'pdf/lviaOriginal.pdf' %}" target="_blank">Help</a>
+                      {% else %}
+                      <a class="dropdown-item"  href="javascript:;">Help</a>
+                     {%endif%}
+                      {%if perms.borrow %}
+                          <a class="dropdown-item" title="Settings" href="{%url 'parametre'%}">
+                                <span aria-hidden="true" class="glyphicon glyphicon-cog pull-right"></span> Settings
+                           </a>
+                      {%endif%}
+
+                    <a class="dropdown-item"  href="{% url 'logout' %}"><i class="fa fa-sign-out pull-right"></i> Déconnexion</a>
+                  </div>
+                </li>
+                <li role="presentation" class="nav-item dropdown open" id="msg">
+                  <a href="#" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
+                    <i style="font-size:20px" class="fa fa-envelope-o"></i>
+                  {% if notif or notif_sub %}
+                    {% if notif >= 10 or notif_sub >= 10 %}
+                      <span class="badge bg-green">{{notif}} {{notif_sub}}+</span>
+                    {%else%}
+                     <span class="badge bg-green">{{notif}} {{notif_sub}}</span>
+                    {% endif %}
+                  {% endif %}
+                  </a>
+                  <ul class="dropdown-menu list-unstyled msg_list " role="menu" aria-labelledby="navbarDropdown1" style="height:400px; overflow:scroll;">
+                    {% for expired in expired_subscription%}
+                    <li class="nav-item" id="notif">
+                      <a href="{% url 'returns' expired.pk%}" class="dropdown-item">
+                        <p class="h6">Abonnement</p>
+                        {% if expired.reader.image_reader == None %}
+                        <span class="image"><img src="{{expired.reader.image_reader.url}}" alt="Profile Image" /></span>
+                        {%endif%}
+                        <span>
+
+                          <span class="font-weight-bold">{{expired.reader}}</span>
+                          <p class="time text-danger ml-0">  Expiré depuis :{{expired.nb_jour}} jours</p> <br>
+                        </span>  <br>
+                        <span class="message">
+                             <span class="font-weight-bold">fin abonnement</span> : {{expired.end_subscription}}
+                        </span>
+                      </a>
+                    </li>
+                     {{ expired_borrow.reader.image_reader}}
+                    {%endfor %}
+                    {% for expired_borrow in expired %}
+                    <li class="nav-item">
+                      <a href="{% url 'returns' expired_borrow.pk %}" class="dropdown-item">
+                        <p class="h6">Emprunt</p>
+                        {%if expired_borrow.reader.image_reader %}
+                        <span class="image"><img src="{{ expired_borrow.reader.image_reader.url }}" alt="Profile Image" /></span>
+                        {%endif%}
+                        <span>
+                          <span class="font-weight-bold">{{expired_borrow.reader}}</span>
+                          <p class="time text-danger ml-0"> Retard:{{expired_borrow.days}} jours</p> <br>
+                        </span>  <br>
+                        <span class="message">
+                             <span class="font-weight-bold">LIVRE</span> : {{expired_borrow.book}}
+                        </span>
+                      </a>
+                    </li>
+                    {%endfor%}
+
+                  </ul>
+                </li>
+                 <li class="nav-item dropdown open mr-3 h5" style="text-decoration:underline"><a href="{% url 'home_site'%}" class="">Aller vers le site</a></li>
+              </ul>
+            </nav>
+          </div>

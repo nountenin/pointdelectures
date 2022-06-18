@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h1> {{ tooltip }}</h1>
+<hr>
+
+<div class="x_title">
+    <h2> Listes des abonnés </h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <div class="row">
+        <table class="table table-striped table-bordered jambo_table bulk_action" id="datatable-responsive"
+               style="width:100%">
+            <thead>
+            <th class="column-title">#</th>
+            <th class="column-title">Abonnés</th>
+            <th class="column-title">Date d'abonnement</th>
+            <th class="column-title">Fin abonnement</th>
+            <th class="column-title">Etat</th>
+            <th class="column-title">Statut</th>
+            <th class="column-title no-link text-center last"><span class="nobr">Action</span>
+            </th>
+
+            </thead>
+
+            <tbody>
+            {% for li in listes %}
+            {% if li.nb_jour < 1 %}
+            <tr class="even pointer">
+
+                 <td class=" ">{{ forloop.counter }}</td>
+                <td class=" ">{{li.reader.first_name }} {{li.reader.last_name }}</td>
+                <td class=" ">{{li.start_subscription}}</td>
+                <td class=" ">{{li.end_subscription}}</td>
+                <td class="text-danger">Expiré</td>
+                <td class="text-danger text-center"><i class="fa fa-circle"></i></td>
+                <td class=" last text-center">
+                    {%if perms.add_subscription%}
+                    <a href="{% url 'resubscriptions' li.pk %}" title="Réabonnement"><i
+                            class="text-primary">Réabonner</i></a>
+                    {%endif%}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</div>
+</div>
+{% endblock %}

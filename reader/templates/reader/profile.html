@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Mon Profil</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-3 col-sm-3  profile_left">
+                    <div class="profile_img">
+                        <div id="crop-avatar">
+                            <!-- Current avatar -->
+                            <img class="img-responsive avatar-view" style="width:220px;"
+                                 src="{% static 'images/profile.jpg' %}" alt="Avatar"
+                                 title="Change the avatar">
+                        </div>
+                    </div>
+                    <h3>{{ user.first_name}} {{ user.last_name }}</h3>
+
+                    <ul class="list-unstyled user_data">
+                        <li><i class="fa fa-briefcase user-profile-icon"></i> Fonction
+                        </li>
+                        <li><i class="fa fa-map-marker user-profile-icon"></i> {{ user.adresse }}
+                        </li>
+
+                        <li>
+                            <i class="fa fa-envelope-o user-profile-icon"></i> {{ user.email}}
+                        </li>
+
+                        <li class="m-top-xs">
+                            <i class="fa fa-phone user-profile-icon"></i> {{ user.phone1_reader}}
+                        </li>
+                        <li class="m-top-xs">
+                            <i class="fa fa-phone user-profile-icon"></i> {{ user.phone2_reader}}
+                        </li>
+                    </ul>
+                    <a class="btn btn-success text-white">
+                        <i class="fa fa-edit m-right-xs"></i>
+                        Editer mon Profil
+                    </a>
+                    <br/>
+
+                </div>
+                <div class="col-md-9 col-sm-9 ">
+                    <table class="data table table-striped no-margin" id="datatable-responsive">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Utilisateur</th>
+                            <th>Actions</th>
+                            <th class="hidden-phone">Description</th>
+                            <th>Date</th>
+                            <th>Heure</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for usr_log in user_log %}
+                        <tr>
+                             <td class=" ">{{ forloop.counter }}</td>
+                            <td>{{ usr_log.id }}</td>
+                            <td>{{ usr_log.user}}</td>
+                            <td>{{ usr_log.get_action_flag_display }}</td>
+                            <td>{{ usr_log.get_change_message}}</td>
+                            <td>{{ usr_log.action_time | date:"M d Y"}}</td>
+                            <td>{{ usr_log.action_time | date:"H:i:s"}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- end user projects -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

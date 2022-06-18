@@ -1,0 +1,54 @@
+/* #login_body:before{
+    content: '' !important;
+    position: fixed !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-image: url('{% static '../images/boy_is_reading.jpg' %}') !important;
+    filter: blur(10px)  !important;
+    top: 0 !important;
+    
+}  */
+
+#login_body {
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  z-index: -100 !important;
+}
+
+.login_content {
+  background: rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9) !important;
+  padding: 10px !important;
+  border-radius: 10px !important;
+  color: #fff !important;
+  
+}
+.login_content input{
+    margin-bottom: 2em !important; 
+}
+.login_content input[type="text"],
+.login_content input[type="password"] {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid #fff !important;
+  border-radius: 0 !important;
+  color: #fff !important;
+  font-size: 1.3em !important;
+}
+::placeholder{
+  color: rgb(199, 199, 199) !important;
+}
+::-webkit-input-placeholder{
+    color: rgb(199, 199, 199) !important;
+}
+
+form h1{
+    letter-spacing: 4px !important;
+}
+

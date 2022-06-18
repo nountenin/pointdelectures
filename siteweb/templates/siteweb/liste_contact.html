@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{%load crispy_forms_tags%}
+{% load static%}
+{% block content %}
+
+<h1>liste des contact</h1>
+<div class="container">
+    <div class="x_content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card-box table-responsive">
+                    <table id="readPoint_table" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom Complet</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Point de lecture</th>
+                            <th>Message</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for liste in listecontact %}
+                        <tr>
+                             <td class=" ">{{ forloop.counter }}</td>
+                            <td>{{ liste.nom_complet }}</td>
+                            <td>{{ liste.mail_contact }}</td>
+                            <td>{{ liste.readpoint }}</td>
+                            <td>{{liste.subject }}</td>
+                            <td>{{ liste.message }}</td>
+                            <td>
+                                <a href=" {%url 'delete_contact' liste.id%} " class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

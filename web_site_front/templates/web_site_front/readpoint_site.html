@@ -1,0 +1,54 @@
+{% extends 'web_site_front/base_site.html' %}
+{% load static%}
+{% block sub_header_site %}
+{% include 'web_site_front/sub_header_site.html' %}
+{% endblock %}
+
+
+{% block contenu %}
+  <!-- Blog Posts Start -->
+  <div class="section">
+    <div class="container">
+        <div class="row">
+            <!-- Article Start -->
+            {%for pl in page.object_list%}
+            <div class="col-lg-4 col-md-6 " *ngFor="let R of Rpoints">
+                <article class="andro_post">
+                    <div class="andro_post-thumb">
+                        <!-- <a href="">
+                            <img src="assets/img/blog/7.jpg" alt="post">
+                        </a> -->
+                    </div>
+                    <div class="andro_post-body card shadow">
+                        <div class="andro_post-categories">
+                            <a href="{% url 'point_livre' pl.pk %}">{{pl.commune_readpoint}} / {{pl.quartier_readpoint}} </a>
+                        </div>
+                        <div class="andro_post-desc">
+                            <h5> <a href="{% url 'point_livre' pl.pk %}">{{ pl.name_readpoint }} </a> </h5>
+                            <span>{{R.address_readpoint}} <br> {{R.email_readpoint}} <br>
+                            <strong>Tel 1 : </strong> {{pl.contact1_readpoint}} <br>
+                            <strong>Tel 2 : </strong> {{pl.contact2_readpoint}} </span>
+                        </div>
+                        <a class="andro_btn - custom btn-block" href=""> Plus d'information </a>
+                    </div>
+                </article>
+            </div>
+            {%endfor%}
+            <!-- Article End -->
+        </div>
+ <!-- Pagination Start -->
+                    <ul class="pagination">
+                        {% if page.has_previous%}
+                        <li class="page-item"><a class="page-link" href="{% url 'readpoint_site'%}?page={{page.previous_page_number}}"><i class="fa fa-angle-double-left"></i></a></li>
+                        {%endif%}
+                        <li class="page-item active">
+                            <a class="page-link" href="{% url 'readpoint_site'%}?page={{page.number}}">{{page.number}} <span class="sr-only">(current)</span></a>
+                        </li>
+                        {% if page.has_next%}
+                        <li class="page-item"><a class="page-link" href="{% url 'readpoint_site'%}?page={{page.next_page_number}}"><i class="fa fa-angle-double-right"></i></a></li>
+                        {%endif%}
+                    </ul>
+  <!-- Pagination End -->
+    </div>
+</div>
+{% endblock %}

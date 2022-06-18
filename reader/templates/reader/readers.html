@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="col-md-12 col-sm-12  ">
+    <div class="x_panel">
+        <div class="row x_title">
+            <div class="col-md-9 col-sm-12 col-lg-10 h2">
+                Lites des Lecteurs
+            </div>
+            <div class="col-md-3 col-sm-12 col-lg-2">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        {%if add%}
+        <ul class="nav navbar-left panel_toolbox">
+            <div class="t">
+                            <a class="btn btn-sm btn-info-outline " href="{%url 'pdfprintReader'%}" ><i class="fa fa-print text-info mr-2"></i>Imprimer</a>
+                        </div>
+            <a class="btn btn-sm" href="{% url 'add-reader' %}" title="Ajouter un lecteur">
+                <i class="fa fa-plus text-success mr-2"></i>Ajouter un lecteur</a>
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+        </ul>
+        {%endif%}
+        <div class="x_content">
+
+            <!--            <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>-->
+
+            <div class="table-responsive" id="tab_books_">
+                <table class="table table-striped jambo_table bulk_action" id="datatable-responsive">
+                    <thead>
+                    <tr class="headings  text-center">
+                        <th class="column-title">#</th>
+                        <th class="column-title">Nom</th>
+                        <th class="column-title">Prénom</th>
+                        <th class="column-title">Téléphone 1</th>
+                        <th class="column-title">E-mail</th>
+                        <th class="column-title">Genre</th>
+                        <th class="column-title">Adresse</th>
+                        <th class="column-title">Point de Lecture</th>
+                        <th class="column-title no-link last"><span class="nobr">Action</span></th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for c in context %}
+                    <tr class="even pointer text-center">
+                         <td class=" ">{{ forloop.counter }}</td>
+                        <td class=" ">{{ c.last_name}}</td>
+                        <td class=" ">{{ c.first_name}}</td>
+                        <td class=" ">{{ c.phone1_reader}}</td>
+                        <td class=" ">{{ c.email}}</td>
+                        {% if c.gender_reader == 'f' %}
+                        <td class=" ">Feminin</td>
+                        {% elif c.gender_reader == 'm' %}
+                        <td class=" ">Masculin</td>
+                        {% endif %}
+                        <td class=" ">{{ c.address_reader }}</td>
+
+                        <td class="">{{ c.readpoint.name_readpoint}}</td>
+                        <td class="last">
+                            <a class="btn btn-transparent" href="{% url 'details' c.pk %}" title="Afficher Plus"><i
+                                    class="fa fa-eye"></i></a>
+
+                            {%if change%}
+                            <a class="btn" href="{% url 'update' c.pk %}" title="Editer"><i
+                                    class="fa fa-edit text-primary"></i></a>
+
+                            {%endif%}
+                            {%if delete%}
+                            <button class="btn supprimer" data-id="{{c.pk}}" title="Supprimer">
+                                <i class="fa fa-trash text-danger"></i></button>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+{% if messages %}
+        {% for msg in messages %}
+            {% if msg.level == 20  %}
+                swal.fire({
+                    "title": "{{ msg }}",
+                    "icon": "success"
+                })
+             {% endif%}
+        {% endfor %}
+    {% endif %}
+$('#datatable-responsive').on('click','.supprimer',function(){
+    let id = $(this).data('id')
+   swal.fire({
+            "title": "Voulez-vous vraiment supprimer ce Point de Lecture ?",
+            "icon": "question",
+            "showCancelButton": true,
+            "cancelButtonText": "Non",
+            "confirmButtonText": "Oui",
+
+        }).then(function(result){
+            if(result.isConfirmed){
+
+                window.location.href = "delete/"+ id
+            }
+        })
+})
+
+
+
+
+</script>
+{% endblock js%}
+
+

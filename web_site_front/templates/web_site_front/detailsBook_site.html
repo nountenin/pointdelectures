@@ -1,0 +1,341 @@
+{% extends 'web_site_front/base_site.html' %}
+{% load static%}
+{%load crispy_forms_tags%}
+{% block sub_header_site %}
+{% include 'web_site_front/sub_header_site.html' %}
+{% endblock %}
+
+{% block contenu %}
+
+  <!-- Product Content Start -->
+    <div class="section">
+        <div class="container">
+             <div class="col-md-12 col-sm-12">
+
+        </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="andro_product-single-thumb">
+                        <img src="{{book.img1_book.url}}" alt="product" class="img-fluid" style="height:400px;width:100%">
+                    </div>
+                    <!-- Pagination Start -->
+<!--                    <div class="andro_single-pagination">-->
+<!--                        <div class="andro_single-pagination-item andro_single-pagination-prev">-->
+<!--                            <a href="{{book.img1_book.url}}">-->
+<!--                                <div class="andro_single-pagination-thumb">-->
+<!--                                    <img src="{{book.img1_book.url}}" alt="product">-->
+<!--                                </div>-->
+<!--                                <div class="andro_single-pagination-content">-->
+<!--                                    <h6>Fiction </h6>-->
+<!--                                </div>-->
+<!--                                <i class="fas fa-chevron-left"></i>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="andro_single-pagination-item andro_single-pagination-next">-->
+<!--                            <a href="{{book.img2_book.url}}">-->
+<!--                                <div class="andro_single-pagination-thumb">-->
+<!--                                    <img src="{{book.img2_book.url}}" alt="product">-->
+<!--                                </div>-->
+<!--                                <div class="andro_single-pagination-content">-->
+<!--                                    <h6>History</h6>-->
+<!--                                </div>-->
+<!--                                <i class="fas fa-chevron-right"></i>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <!-- Pagination End -->
+                </div>
+                <div class="col-md-7">
+                    <div class="andro_product-single-content">
+                        <div class="andro_product-single-controls andro_post-share">
+                            <a href="#" data-toggle="tooltip" title="Add to Wishlist" class="andro_add-to-favorite"> <i class="flaticon-like"></i> </a>
+                            <ul class="andro_sm">
+                                <li> <a href="#" data-toggle="tooltip" title="Share on Facebook"> <i class="fab fa-facebook-f"></i> </a> </li>
+                                <li> <a href="#" data-toggle="tooltip" title="Share on Twitter"> <i class="fab fa-twitter"></i> </a> </li>
+                                <li> <a href="#" data-toggle="tooltip" title="Share on Linkedin"> <i class="fab fa-linkedin-in"></i> </a> </li>
+                            </ul>
+                        </div>
+                        <div class="andro_rating-wrapper">
+                            <div class="andro_rating">
+                                 {% with n=book.note.note__avg|floatformat:0 %}
+                                           {% for i in '12345'|make_list %}
+
+                                                   <i class="fa fa-star {% if forloop.counter|slugify <= n %}checked{%endif%}"></i>
+                                            {% endfor %}
+                                            {%endwith%}
+                            </div>
+                            <span>4 Stars</span>
+                        </div>
+                        <h3>{{book.title_book}}</h3>
+
+                        <ul class="andro_product-meta">
+                              <li>
+                                <span>Publié: </span>
+                                <div class="andro_product-meta-item">
+                                    <a href="#">le {{book.publication_date_book}}</a>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Categories: </span>
+                                <div class="andro_product-meta-item">
+                                    <a href="#">{{book.category}}</a>
+                                </div>
+                            </li>
+                            <li>
+                                <span>Auteur: </span>
+                                <div class="andro_product-meta-item">
+                                    <span>{{book.author.first_name_author}} {{book.author.last_name_author}} </span>
+
+                                </div>
+                            </li>
+<!--                            <li>-->
+<!--                                <span>SKU: </span>-->
+<!--                                <div class="andro_product-meta-item">-->
+<!--                                    <span>N/A</span>-->
+<!--                                </div>-->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product Content End -->
+
+    <!-- Additional Information Start -->
+    <div class="section pt-0">
+        
+        <div class="container">
+            
+            <div class="andro_product-additional-info">
+                
+                <div class="row">
+                    
+                    <div class="col-lg-4">
+                        <ul class="nav andro_sticky-section" id="bordered-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="tab-product-reviews-tab" data-toggle="pill" href="#tab-product-reviews" role="tab" aria-controls="tab-product-reviews" aria-selected="false">Commentaires ({{commentaire|length}})</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-product-desc-tab" data-toggle="pill" href="#tab-product-desc" role="tab" aria-controls="tab-product-desc" aria-selected="true">Description</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-product-info-tab" data-toggle="pill" href="#tab-product-info" role="tab" aria-controls="tab-product-info" aria-selected="false">Information supplementaire</a>
+                            </li>
+                          
+                        </ul>
+                    </div>
+                    
+                    <div class="col-lg-8">
+                        
+                        <div class="tab-content" id="bordered-tabContent">
+                            
+                            <div class="tab-pane fade show active" id="tab-product-reviews" role="tabpanel" aria-labelledby="tab-product-reviews-tab">
+                                {% if not user.is_anonymous %}
+                               <h4>Ajouter une note</h4>
+
+                               <div class="andro_rating-wrapper">
+                                   <div class="andro_rating" id="andro_rating">
+                                       <span class="fa fa-star hello" id="0"></span>
+                                       <span class="fa fa-star hello" id="1"></span>
+                                       <span class="fa fa-star hello" id="2"></span>
+                                       <span class="fa fa-star hello" id="3"></span>
+                                       <span class="fa fa-star hello" id="4"></span>
+                                   </div>
+                               </div>
+                               <!-- Review Form start -->
+                               <div class="comment-form">
+                                   <form method="post" action="{% url 'add_comment_site'%}">
+                                       {%csrf_token%}
+                                       <div class="row">
+
+                                           <div class="col-md-6 form-group">
+                                               <input type="text" hidden class="form-control" id="note" placeholder="Note" name="note" value="0">
+                                           </div>
+                                           <div class="col-md-6 form-group">
+                                               <input type="text" hidden class="form-control" placeholder="book" name="book" value="{{book.pk}}">
+                                           </div>
+                                           <div class="col-md-12 form-group">
+                                               <textarea class="form-control" placeholder="Entrer votre commentaire..." name="commentaire" rows="7"></textarea>
+                                           </div>
+                                       </div>
+                                       <button type="submit" class="andro_btn-custom primary" name="button">Poster</button>
+                                   </form>
+                               </div>
+                               {%endif%}
+                               <!-- Review Form End -->
+                               <!-- Reviews Start -->
+                               <div class="comments-list">
+                                   <ul>
+                                       {% for coment in commentaire%}
+                                       <li class="comment-item">
+                                           {%if coment.lecteur.image_reader %}
+                                           <img src="{{coment.lecteur.image_reader.url}}" alt="comment author">
+                                           {%endif%}
+                                           <div class="comment-body">
+                                               <h5>{{coment.lecteur.first_name}} {{coment.lecteur.last_name}}</h5>
+                                               <div class="andro_rating" >
+                                                {% for i in '12345'|make_list %}
+                                                   <i class="fa fa-star {% if forloop.counter <= coment.note %}active{%endif%}"></i>
+                                                {% endfor %}
+
+                                               </div>
+                                               <span>Poster le : {{coment.created_at}}</span>
+                                               <p>{{coment.commentaire}}</p>
+<!--                                                <a href="#" class="reply-link"> Reply </a>-->
+                                           </div>
+                                       </li>
+                                       {%endfor%}
+                                   </ul>
+                               </div>
+                               <!-- Reviews End -->
+                           </div>
+                            <div class="tab-pane fade  " id="tab-product-desc" role="tabpanel" aria-labelledby="tab-product-desc-tab">
+                                <h4>Résumé</h4>
+                                <span>{{book.resume_book}}</span>
+                            </div>
+                            <div class="tab-pane fade" id="tab-product-info" role="tabpanel" aria-labelledby="tab-product-info-tab">
+                                <h4>Information supplementaire</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Attributs</th>
+                                            <th scope="col">Valeurs</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+<!--                                        <tr>-->
+<!--                                            <td> <strong>nombre de page</strong> </td>-->
+<!--                                            <td>{{book.number_copy_book}}</td>-->
+<!--                                        </tr>-->
+                                        <tr>
+                                            <td> <strong>Maison d'edition</strong> </td>
+                                            <td>{{book.edition_house}}</td>
+                                        </tr> <tr>
+                                            <td> <strong>Point de Lecture</strong> </td>
+                                            <td>{{book.category.rayon.readpoint.name_readpoint}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information End -->
+    <!-- Related Products Start -->
+  {%if books%}
+    <div class="section pt-0 andro_related-posts">
+        <div class="container">
+            <div class="section-title flex-title">
+                <h4 class="title">Autres livres de la même catégorie</h4>
+                <div class="andro_arrows">
+                    <i class="fa fa-arrow-left slick-arrow slider-prev"></i>
+                    <i class="fa fa-arrow-right slick-arrow slider-next"></i>
+                </div>
+            </div>
+            <div class="andro_related-posts-slider bg-white">
+
+                {% for book in books%}
+                <!-- Product Start -->
+                <div class="andro_product andro_product-has-controls andro_product-has-buttons ">
+                    <div class="andro_product-badge andro_badge-featured">
+                        <i class="fa fa-star"></i>
+                        <span>{{book.category}}</span>
+                    </div>
+                    <div class="andro_product-thumb">
+                        <a href="{%url 'detailsBook_site' book.pk %}"><img src="{{book.img1_book.url}}" class="img-fluid" style="height:200px" alt="product"></a>
+                    </div>
+                    <div class="andro_product-body">
+                        <h5 class="andro_product-title"> <a href="{%url 'detailsBook_site' book.pk %}">{{book.title_book}}</a> </h5>
+                            {% with n=book.note.note__avg|floatformat:0 %}
+                               {% for i in '12345'|make_list %}
+
+                                       <i class="fa fa-star {% if forloop.counter|slugify <= n %}checked{%endif%}"></i>
+                                {% endfor %}
+                                {%endwith%}
+                        <p>{{book.resume_book|slice:":50"}}</p>
+
+                    </div>
+                    <div class="andro_product-footer">
+                        <div class="andro_product-buttons">
+                            <a href="{% url 'detailsBook_site' book.pk%}" class="andro_btn-custom primary">Plus</a>
+<!--                            <a href="#" data-toggle="modal" data-target="#quickViewModal" class="andro_btn-custom light">Quick View</a>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- Product End -->
+              {%endfor%}
+
+            </div>
+        </div>
+    </div>
+ {%endif%}
+<style>
+       .checked {
+      color: orange !important;
+    }
+
+    .helloHover {
+      color: rgb(255, 205, 111) !important;
+    }
+
+    .hello {
+      cursor: pointer !important;
+    }
+</style>
+{% endblock %}
+{% block custom_js %}
+<script >
+    {% if messages%}
+
+        {% for message in messages %}
+            {%if message.level == 20 %}
+                swal.fire({
+                "title":"{{message}}",
+                "icon": "question",
+                "showCancelButton": true,
+                "cancelButtonText": "Non",
+                "confirmButtonText": "Oui"
+        }).then(function(result){
+            if(result.isConfirmed){
+                    location.href = `{% url 'approvisionnement'  id quantite %}`
+            }
+        })
+            {%endif%}
+        {%endfor%}
+      {%endif%}
+
+</script>
+<script>
+
+    $('.hello').on('click', function (e) {
+      id = $(this).attr('id')
+      $('#note').attr('value',Number(id)+1)
+      for(let i=0; i<=4; i++){
+        $(`#${i}`).removeClass('checked')
+      }
+      for (let i = 0; i <= id; i++) {
+        $(`#${i}`).addClass('checked')
+       
+      }
+
+    })
+    $('.hello').on('mouseenter', (e) => {
+      let id = Number(e.target.id)
+      for (let i = 0; i <= id; i++) {
+        $(`#${i}`).addClass('helloHover')
+      }
+    })
+    $('.hello').on('mouseleave', (e) => {
+      let id = Number(e.target.id)
+      for (let i = 0; i <= id; i++) {
+        $(`#${i}`).removeClass('helloHover')
+      }
+    })
+  </script>
+{% endblock %}

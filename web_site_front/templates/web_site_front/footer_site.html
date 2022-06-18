@@ -1,0 +1,172 @@
+{% load static%}
+
+<div class="newsletter">
+
+    <!-- NEWS LETTER -->
+<div class="section light-bg">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-lg-30 d-block d-lg-flex align-items-center text-center text-lg-left">
+                <i class="flaticon-email-1 mr-0 mr-lg-4 fs-40"></i>
+                <div class="andro_newsletter-content">
+                    <h4 class="mb-0">Informez - vous des nouveautés</h4>
+                    <p class="mb-0">Abonnez - vous à la newsletter!</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <form method="post" action="{% url 'newletter'%}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="emails" required autocomplete="false" placeholder="Votre adresse mail">
+                        <div class="input-group-append">
+                            <button class="andro_btn-custom" type="submit">Subscribe</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Instagram Start -->
+<div class="row no-gutters">
+    <div class="col-lg-4 primary-bg pattern-bg">
+        <div class="andro_instagram">
+            <h3 class="text-white">Retrouvez nous sur Facebook</h3>
+            <a href="#" class="andro_btn-custom light">j'aime</a>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="row no-gutters">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-0">
+                <a href="#" class="andro_ig-item">
+                    <img src="{% static 'assets/img/ig/1.jpg'%}" alt="ig">
+                </a>
+
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-0">
+                <a href="#" class="andro_ig-item">
+                    <img src="{% static 'assets/img/ig/2.jpg'%}" alt="ig">
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-12 p-0">
+                <a href="#" class="andro_ig-item">
+                    <img src="{% static 'assets/img/ig/3.jpg'%}" alt="ig">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Instagram End -->
+
+</div>
+
+
+<!-- Footer Start -->
+<footer class="andro_footer">
+    <div class="section bg-secondary my-3 text-center">
+
+                <h4 class="text-white">Nos partenaires</h4>
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class=" p-4 mx-4 bg-white rounded-circle" style="width: 100px; height: 100px;">
+                        <img src="{% static 'assets/img/partenaire/ada.png'%}" style="width:100%; height: 100%" alt="">
+                    </div>
+                    <div class=" p-4 m-4 bg-white rounded-circle" style="width: 100px; height: 100px;">
+                        <img src="{% static 'assets/img/partenaire/reduc.png'%}" style="width:100%; height: 100%" alt="">
+                    </div>
+                    <div class=" p-4 m-4 bg-white rounded-circle" style="width: 100px; height: 100px;">
+                        <img src="{% static 'assets/img/partenaire/72h.png'%}" style="width:100%; height: 100%" alt="">
+                    </div>
+                    <div class=" p-4 m-4 bg-white rounded-circle" style="width: 100px; height: 100px;">
+                        <img src="{% static 'assets/img/partenaire/sb_1.png'%}" style="width:100%; height: 100%" alt="">
+                    </div>
+                    <div class=" p-4 m-4 bg-white rounded-circle" style="width: 100px; height: 100px;">
+                        <img src="{% static 'assets/img/partenaire/lvia3.png'%}" style="width:100%; height: 100%" alt="">
+                    </div>
+                    <div class=" p-4 m-4 bg-white rounded-circle" style="width: 100px; height: 100px;">
+                        <img src="{% static 'assets/img/partenaire/Logo-PNUD.jpg'%}" style="width:100%; height: 100%" alt="">
+                    </div>
+                    <div class=" p-4 m-4 bg-white rounded-circle" style="width: 100px; height: 100px;">
+                        <img src="{% static 'assets/img/partenaire/altgras.png'%}" style="width:100%; height: 100%" alt="">
+                    </div>
+
+                </div>
+            </div>
+    <!-- Top Footer -->
+<!--    <div class="container">-->
+<!--        <div class="andro_footer-top">-->
+
+<!--&lt;!&ndash;            <div class="andro_footer-buttons">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a href="#"> <img src="{% static 'assets/img/android.png'%}" alt="download it on the app store"></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="text-light">..</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                <a href="#"> <img src="{% static 'assets/img/ios.png'%}" alt="download it on the app store"></a>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+    <!-- Middle Footer -->
+    <div class="andro_footer-middle">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 footer-widget">
+                    <h5 class="widget-title text-dark">Menu</h5>
+                    <ul>
+                        <li class="menu-item "><a href="{%url 'home_site'%}">Accueil</a></li>
+                        <li class="menu-item "><a href="{%url 'book_site'%}">Nos Livres</a></li>
+                        <li class="menu-item "><a href="{%url 'readpoint_site'%}">Points de Lectures</a></li>
+                        <li class="menu-item "><a href="{%url 'events_site'%}">Evenements</a></li>
+                        <li class="menu-item "><a href="{% url 'ecocitoyennete_site'%}">Ecocitoyenneté</a></li>
+                        <li class="menu-item "><a href="{% url 'about_site'%}">A Propos</a></li>
+                        <li class="menu-item"> <a href="{%url 'contacts_site'%}">Contact</a> </li>
+                    </ul>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 footer-widget">
+                    <h5 class="widget-title text-dark">Top Categories</h5>
+                    <ul>
+                        {% for c in category|slice:":5"%}
+                        <li >
+                            <a href="{%url 'detailsCategorie' c.name_category %}">{{ c.name_category }}</a>
+                        </li>
+                        {%endfor%}
+                    </ul>
+
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 footer-widget">
+                    <h5 class="widget-title text-dark">Autres</h5>
+                    <ul>
+                        <li> <a href="">...</a> </li>
+
+                    </ul>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 footer-widget">
+                    <h5 class="widget-title text-dark">Reseaux sociaux</h5>
+                    <ul class="social-media">
+                        <li> <a href="#" class="facebook"> <i class="fab fa-facebook-f"></i> </a> </li>
+                        <li> <a href="#" class="pinterest"> <i class="fab fa-pinterest-p"></i> </a> </li>
+                        <li> <a href="#" class="google"> <i class="fab fa-google"></i> </a> </li>
+                        <li> <a href="#" class="twitter"> <i class="fab fa-twitter"></i> </a> </li>
+                    </ul>
+                    <div class="andro_footer-offer">
+                        <p>Rejoignez-nous sur les resaux !</p>
+                        <a href="{% url 'login' %}" class="andro_btn-custom btn-sm shadow-none">S'authentifier</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer Bottom -->
+    <div class="andro_footer-bottom">
+        <div class="container">
+            <ul>
+<!--                <li> <a href="#">Privacy Policy</a> </li>-->
+<!--                <li> <a href="#">Refund Policy</a> </li>-->
+<!--                <li> <a href="#">Cookie Policy</a> </li>-->
+<!--                <li> <a href="#">Terms & Conditions</a> </li>-->
+            </ul>
+            <div class="andro_footer-copyright">
+                <p> Copyright © 2022 <a href="#">Point de Lectures</a> Tous drois &copy; reservés </p>
+                <a href="#" class="andro_back-to-top">Haut de page <i class="fas fa-chevron-up"></i> </a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer End -->
+

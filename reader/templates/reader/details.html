@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><small><a href="{% url 'readers' %}" class="btn btn-transparent"><i
+                        class="fa fa-reply ml-1 text-secondary"></i></a></small>Information du Lecteur</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                                <div class="col-md-12 col-sm-12">
+                {% if messages %}
+                <ol>
+                    {% for message in messages %}
+                    <li class="text-white h6 {%if message.level == 25 %}message alert alert-success {%elif message.level == 40 %} message alert alert-danger {% endif %}">
+                        {{message}}
+                    </li>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+            </div>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            {% for c in context %}
+
+            <div class="x_content">
+                <div class="profile text-white fw-bold">
+                    <img class="img-fluid img-responsive" style="height: 300px; width: 100%"
+                         src="{% static 'images/lvia1.jpg' %}"/>
+                </div>
+
+                <div class="text-white col-2 mx-5 text-center d-flex justify-content-center rounded-circle"
+                     style="margin-top: -80px">
+
+                    {% if c.image_reader %}
+                    <img class="img-fluid img-responsive rounded rounded-circle"
+                         style="height: 175px; width: 100%;" id="images" src="{{ c.image_reader.url }}"
+                         alt="Avatar"
+                         title="Change the avatar">
+                    {% else %}
+                    <img class="img-fluid img-responsive" id="" src=""
+                         alt="Avatar"
+                         title="Change the avatar">
+                    {% endif %}
+
+                </div>
+
+                <div class="row mt-4">
+
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white fw-bold">Envoyer un message</div>
+                            <div class="card-body">
+                                <div class="formulaire">
+                                    <form action="{% url 'envoimail' %}" method="post">
+                                        {% csrf_token %}
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" required name="email_exp" value="{{ c.email }}" readonly>
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" hidden required name="pk" value="{{ c.pk }}" readonly>
+                                        </div>
+<!--                                        <div class="input-group">-->
+<!--                                            <input type="text" class="form-control" placeholder="Titre">-->
+<!--                                        </div>-->
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" required name="object" placeholder="Objet">
+                                        </div>
+
+                                        <div class="area-group mb-2">
+                                            <textarea rows="3" name="message" required class="form-control"
+                                                      placeholder="Votre message..."></textarea>
+                                        </div>
+
+                                        <div class="btn-group col-md-12">
+                                            <button type="submit" class="btn btn-success">Envoyer</button>
+                                        </div>
+                                        <div class="btn-group mt-3">
+                                            <a type="button" href=" {% if c.username and c.pk and c.email%} {% url 'send_confirmation_mail' c.username c.pk c.email %} {%endif%}" class="btn btn-lg   btn-success" style="font-size:1em">Envoyer un mail de confirmation</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="tab-infos">
+<!--                        <button class="tablink btn" onclick="openPage('Home', this, '#b3b3b3')" >Situation</button>-->
+                            <button class="tablink btn" onclick="openPage('News', this, '#b3b3b3')">Status</button>
+                            <button class="tablink btn" onclick="openPage('About', this, '#b3b3b3')" id="defaultOpen">Apropos !</button>
+<!--                            <button class="tablink btn" onclick="openPage('Contact', this, '#b3b3b3')">Description</button>-->
+
+<!--                            <div id="Home" class="tabcontent">-->
+<!--                                <h3>Home</h3>-->
+<!--                                <p>Home is where the heart is..</p>-->
+<!--                            </div>-->
+
+                            <div id="News" class="tabcontent">
+                                <h3>Status !</h3>
+                                <p>Some news this fine day!</p>
+                            </div>
+
+                            <div id="About" class="tabcontent">
+                                <h3>Apropos !</h3>
+                                <p>Utilisateurs inscrit depuis le : <span class="text-primary">{{ c.created_at }}</span> </p>
+                                <div class="about" style="font-size: 16px;font-family: courier new;">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <table class="table">
+                                                {%if c.nationality_reader%}
+
+                                                <tr>
+                                                    <th>Nationnalité </th>
+                                                    <th> : </th>
+                                                    <td>{{ c.nationality_reader }} </td>
+                                                </tr>
+                                                {%endif%}
+                                                <tr>
+                                                    <th>Telephone </th>
+                                                    <th> : </th>
+                                                    <td>{{ c.phone1_reader }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Adresse </th>
+                                                    <th> : </th>
+                                                    <td>{{ c.address_reader }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nom d'utilisateur </th>
+                                                    <th> : </th>
+                                                    <td>{{ c.username }} </td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Type de pièce </th>
+                                                    <th> : </th>
+                                                    <td>{{ c.type_piece_reader }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Numero de pièce </th>
+                                                    <th> : </th>
+                                                    <td>{{ c.number_piece_reader }} </td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+<!--                            <div id="Contact" class="tabcontent">-->
+<!--                                <h3>Description</h3>-->
+<!--                                <p>???</p>-->
+<!--                            </div>-->
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function openPage(pageName, elmnt, color) {
+      // Hide all elements with class="tabcontent" by default */
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      // Remove the background color of all tablinks/buttons
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+      }
+
+      // Show the specific tab content
+      document.getElementById(pageName).style.display = "block";
+
+      // Add the specific color to the button used to open the tab content
+      elmnt.style.backgroundColor = color;
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+
+
+</script>
+
+<style>
+
+/* Set height of body and the document to 100% to enable "full page tabs" */
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial;
+}
+
+
+.tablink:hover {
+  background-color: #b3b3b3;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+  display: none;
+  padding: 20px 20px;
+  height: 39vh;
+}
+
+#Home {background-color: #b3b3b3_;border: 1px solid #b3b3b3;}
+#News {background-color: greyy;border: 1px solid #b3b3b3;}
+#Contact {background-color: greyy;border: 1px solid #b3b3b3;}
+#About {background-color: greyy;border: 1px solid #b3b3b3;}
+
+</style>
+
+{% endblock content %}

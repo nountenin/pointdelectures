@@ -1,0 +1,175 @@
+<div class="left_col scroll-view">
+    <div class="navbar nav_title" style="border: 0;">
+        <a class="site_title" href="index.html"><i class="fa fa-paw"></i> <span>LVIA - ADMIN</span></a>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <!-- menu profile quick info -->
+    <div class="profile clearfix">
+        <div class="profile_pic">
+            <img alt=""
+                 class="img-circle profile_img img-fluid"
+                 src="{%if user.image_reader%}{{user.image_reader.url}}{%else%}static/images/profile.jpg {%endif%}">
+
+        </div>
+        <div class="profile_info">
+            <span>Bienvenu, <span class="h2">{{user.username}}</span></span>
+
+        </div>
+    </div>
+    <!-- /menu profile quick info -->
+
+    <br/>
+
+    <!-- sidebar menu -->
+    <div class="main_menu_side hidden-print main_menu" id="sidebar-menu">
+        <div class="menu_section">
+            <h3>General</h3>
+            <ul class="nav side-menu">
+                <li><a href="{% url 'dashboard' %}"><i class="fa fa-tachometer"></i> Tableau de bord </a></li>
+                        {%if perms.book%}
+                    <li><a><i class="fa fa-book"></i> Livres <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        {%if perms.book.add_readpoint or perms.book.delete_readpoint or perms.book.view_readpoint or perms.book.change_readpoint%}
+                        <li><a href="{% url 'readpoints' %}">Points de lectures</a></li>
+                        {%endif%}
+
+                        {%if perms.book.add_rayon or perms.book.delete_rayon or perms.book.view_rayon or perms.book.change_rayon%}
+                        <li><a href="{% url 'ranks' %}">Rayons</a></li>
+                        {%endif%}
+
+                        {%if perms.book.add_book or perms.book.delete_book or perms.change_book or perms.book.view_book or perms.book.add_category or perms.book.delete_category or perms.change_category or perms.book.view_category or perms.book.add_movement or perms.book.delete_movement or perms.change_movement or perms.book.view_movement or perms.book.add_author or perms.book.delete_author or perms.change_author or perms.book.view_author%}
+
+                        <li><a href="{% url 'books' %}">livres</a></li>
+                        {%endif%}
+                        {%if user.is_superuser%}
+                        <li><a href="{% url 'transfert' %}">Transfert de livres</a></li>
+                        {%endif%}
+                        {% if perms.book.add_movement or perms.book.delete_movement or perms.change_movement or perms.book.view_movement %}
+                        <li><a href="{% url 'list_movement' %}">Liste des Mouvements</a></li>
+                        {%endif%}
+                        {%if perms.book.view_book %}
+                            <li><a href="{%url 'allbooks'%}">Tous les livres</a></li>
+                        {%endif%}
+                    </ul>
+                </li>
+                      {%endif%}
+                {% if perms.reader%}
+                <li><a><i class="fa fa-group"></i> Lecteurs <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        {%if perms.reader.add_reader%}
+                        <li><a href="{% url 'add-reader' %}">Ajouter un lecteur</a></li>
+                        {%endif%}
+                        {%if perms.reader.change_reader or perms.reader.delete_change%}
+                        <li><a href="{% url 'readers' %}">Liste des lecteurs</a></li>
+                        {%endif%}
+                    </ul>
+                </li>
+                {%endif%}
+                {%if perms.subscription%}
+                    <li><a><i class="fa fa-user"></i> Abonnements <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                    {% if perms.subscription.add_subscription or perms.subscription.delete_subscription or perms.change_subscription or view_subscription%}
+                            <li><a href="{% url 'subscriptions' %}">Abonnements</a></li>
+                            {%endif%}
+                     {% if  perms.subscription.delete_subscription or perms.change_subscription or view_subscription%}
+                            <li><a href="{% url 'resubscriptions' %}">Réabonnements</a></li>
+                            {%endif%}
+                        </ul>
+                    </li>
+                {%endif%}
+                {% if perms.borrow%}
+                <li><a><i class="fa fa-share"></i> Emprunts <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                {% if perms.subscription.add_subscription%}
+                        <li><a href="{% url 'add-borrow' %}">Ajouter un emprunt</a></li>
+                {%endif%}
+                        <li><a href="{% url 'borrows' %}">Liste des emprunts</a></li>
+                {% if perms.borrow.view_borrow%}
+                        <li><a href="{% url 'liste_borrow_return' %}">Liste des emprunts retourné</a></li>
+                {%endif%}
+                {% if  perms.borrow.delete_borrow or perms.change_borrow or perms.borrow.view_borrow%}
+                        <li><a href="{% url 'retour' %}">Retours</a></li>
+                {%endif%}
+                    </ul>
+                </li>
+                {%endif%}
+                {%if perms.comptabilite%}
+                <li><a><i class="fa fa-money"></i> Comptabilite <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{% url 'depense' %}">Depenses</a></li>
+                        <li><a href="{% url 'vente' %}">Achat</a></li>
+                        <li><a href="{% url 'tresorerie' %}">Tresorerie</a></li>
+                        <li><a href="{% url 'personel' %}">Personnel</a></li>
+                    </ul>
+                </li>
+                {%endif%}
+                {%if perms.is_superuser%}
+                <li><a><i class="fa fa-users"></i> Utilisateurs <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{% url 'add-user' %}">Ajout utilisateur</a></li>
+                        <li><a href="{% url 'users' %}">Liste des utilisateurs</a></li>
+                    </ul>
+                </li>
+                {%endif%}
+                {%if perms.statistique%}
+                <li><a><i class="fa fa-bar-chart"></i>Statistiques <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{% url 'statistics' %}">Les lecteur et point de lecture</a></li>
+                        <li><a href="{% url 'books_borrows' %}">Livres emprunté</a></li>
+                    </ul>
+                </li>
+                {%endif%}
+                {% if perms.formulairmail or perms.Events or perms.formulairmail or perms.siteweb%}
+                <li><a><i class="fa fa-globe"></i>Site <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        {%if perms.formulairmail%}
+                        <li><a href="{% url 'mail' %}">Envoyé un mail</a></li>
+                        {%endif%}
+                        {%if perms.Events%}
+                        <li><a href="{% url 'list_events' %}">Evénement</a></li>
+                        {%endif%}
+                        {%if perms.formulairmail%}
+                        <li><a href="{% url 'newsletters' %}">NewSletters</a></li>
+                        {%endif%}
+                        {%if perms.siteweb%}
+                        <li><a href="{% url 'listecontact' %}">Contact</a></li>
+                        {%endif%}
+                        {%if perms.web_site_front%}
+                        <li><a href="{% url 'slide' %}">Slide</a></li>
+                        {%endif%}
+                    </ul>
+                </li>
+                {%endif%}
+                {%if perms.is_superuser%}
+                <li><a><i class="fa fa-inbox"></i>Action <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{% url 'logs' %}">logs</a></li>
+                    </ul>
+                </li>
+                {%endif%}
+            </ul>
+        </div>
+
+
+    </div>
+    <!-- /sidebar menu -->
+
+    <!-- /menu footer buttons -->
+    <div class="sidebar-footer hidden-small">
+        <a data-placement="top" data-toggle="tooltip" title="Settings" href="{%url 'parametre'%}">
+            <span aria-hidden="true" class="glyphicon glyphicon-cog"></span>
+        </a>
+        <a data-placement="top" data-toggle="tooltip" title="FullScreen">
+            <span aria-hidden="true" class="glyphicon glyphicon-fullscreen"></span>
+        </a>
+        <a data-placement="top" data-toggle="tooltip" title="Lock">
+            <span aria-hidden="true" class="glyphicon glyphicon-eye-close"></span>
+        </a>
+        <a data-placement="top" data-toggle="tooltip" href="{% url 'logout'%}" title="Logout">
+            <span aria-hidden="true" class="glyphicon glyphicon-off"></span>
+        </a>
+    </div>
+    <!-- /menu footer buttons -->
+</div>

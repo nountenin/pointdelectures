@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load qr_code %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% for ab in abonnem %}
+        <div class="col-4">
+            <div class="card border-0">
+                <div class="card-header shadow shadow-lg border-0">
+
+                    <h6 class="text-secondary"><a href="{% url 'subscriptions' %}"><i class="fa fa-reply"></i></a>&nbsp;|&nbsp;Profile</h6>
+                </div>
+
+
+                <div class="">
+                    <div class="card shadow shadow-lg">
+                        <div class="card-header p-1 border text-center">Carte du lecteur</div>
+                        <div class="card-body shadow">
+                            <div class="row">
+                                <div class="col-8 container w-100">
+                                    <div class="row">
+                                        <div class="col-12 fw-bold" style="font-family: monoscope; font-size: 16px">
+                                            <strong class="text-primary fw-bold text-uppercase">{{ ab.lastname }}</strong>
+                                            <strong class="text-primary fw-bold">{{ ab.firstname }}</strong> <br>
+                                            {% if ab.sexe == 'm' %}
+                                            <span class="small">Masculin</span> <br>
+                                            {% else %}
+                                            <span class="small">Feminin</span> <br>
+                                            {% endif %}
+                                            <strong class="small">+(224) {{ ab.telephone }}</strong> <br>
+                                            <strong class="small">{{ ab.type_piece }}</strong> :
+                                            <strong class="small text-info">{{ ab.number_type_piece }}</strong> <br>
+                                            <span class="small">Q/C : {{ ab.adress }}</span> <br>
+                                            <strong class="text-secondary small">Fin abonnement : <i
+                                                    class="text-danger">{{ ab.finSubs }}</i></strong> <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 rounded rounded-circle text-center">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {% if ab.photo %}
+                                            <img class="img-fluid img-responsive rounded rounded-circle h-75"
+                                                 width="100%" id="images" src="{{ ab.photo.url }}"
+                                                 alt="Avatar"
+                                                 title="Change the avatar">
+                                            {% else %}
+                                            <img class="img-fluid img-responsive" id="" src=""
+                                                 alt="Avatar"
+                                                 title="Change the avatar">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-12 container">
+                                            {% qr_from_data ab.number_type_piece size="T" %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer bg-primary small text-white text-center p-0"
+                             style="font-family: courier new;">
+                            <strong style="font-size: 17px">{{ ab.readpoint }} - C/{{ ab.communeRP }}</strong><br>
+                            contact : <i>{{ ab.contactRP }}/{{ ab.emailRP }}</i> | status:
+                            {% if ab.status == 1 %}
+                            <i class="fa fa-circle text-success"></i>
+                            {% else %}
+                            <i class="fa fa-circle text-danger"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-footer border-0">
+                    <div class="d-flex justify-content-center">
+                        <a href=""><span class="fa fa-facebook text-primary mx-2"></span></a>
+                        <a href=""><span class="fa fa-twitter text-primary mx-2"></span></a>
+                        <a href=""><span class="fa fa-instagram text-danger mx-2"></span></a>
+                        <a href=""><span class="fa fa-linkedin text-primary mx-2"></span></a>
+                    </div>
+
+                    <a href="" type="button" class="btn btn-light w-100 border border-success">
+                        <i class="mdi mdi-18px mdi-chart-scatter-plot-hexbin text-dark"></i>
+                        Generer la carte !
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- END COL - carte            -->
+        {% endfor %}
+
+        <div class="col">
+            <h4>Details du lecteur...</h4>
+            <hr>
+            <div id="table_liste">
+                <table class="table table-striped">
+                    <thead>
+                    <th>#</th>
+                    <th>Date debut</th>
+                    <th>Date fin</th>
+                    <th>Statut actuel</th>
+                    </thead>
+                    <tbody>
+                    {% for data in l %}
+
+                    <tr>
+                         <td class=" ">{{ forloop.counter }}</td>
+                        <td>{{ data.start_subscription }}</td>
+                        <td>{{ data.end_subscription }}</td>
+                        <td class="text-success"><i class="fa fa-check"></i></td>
+                    </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

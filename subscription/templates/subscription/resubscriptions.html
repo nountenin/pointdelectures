@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1> {{ tooltip }}</h1>
+<hr>
+
+<!-- table -->
+ <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><a href="{% url 'subscriptions' %}"><span class="fa fa-reply text-danger me-5"></span></a> | {{tooltip}} </h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    {% if messages %}
+                      {% for message in messages %}
+                          <span class="x_panel  text-white h6 {%if message.level == 40 %}message alert alert-danger{% endif %}">
+                                {{message}}
+                          </span>
+                      {% endfor %}
+                    {% endif %}
+
+                  <div class="x_content">
+
+                    <div class="row">
+                       <div class="col-md-12 col-sm-12  ">
+
+                        <form method="post" class="form-horizontal form-label-left">
+                            {% csrf_token %}
+
+                              <div class="col-md-12 col-sm-12 ">
+                                  {{ form | crispy }}
+                                </div>
+                         <div class="col-12  col-sm-12 ">
+                                        <select class="form-control" id="reader" name="reader">
+                                            <option value="">Sélectionnez un lecteur</option>
+                                            {%for read in reader%}
+                                            <option  value="{{read.pk}}" {% if lecteur == read.pk %} selected {% endif %} >Nom:
+                                                {{read.first_name}} Prenom: {{read.last_name}} tel:{{read.phone1_reader}}
+                                            </option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                             <div class="modal-footer">
+                        <a aria-label="Close" href="{% url 'subscriptions' %}" class="btn btn-danger" data-dismiss="modal" type="button">
+                            Fermer
+                        </a>
+                        <button class="btn btn-primary" type="submit">Enregistrer</button>
+                    </div>
+
+                        </form>
+
+                 </div>
+                    </div>
+                  </div>
+
+
+                </div>
+
+                  </div>
+    </div>
+</div>
+
+
+
+
+
+<!--fin table-->
+{% endblock content %}

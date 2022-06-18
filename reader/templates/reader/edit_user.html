@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="row x_title">
+                <div class="col-md-9 col-sm-12 col-lg-9 h2"><a href="{% url 'users'%}"><i class="fa fa-reply"></i></a> |
+                    Modification du Lecteur
+                </div>
+                <div class="col-md-3 col-sm-12 col-lg-3">
+                    <div class="row">
+                        <ul class="nav navbar-right panel_toolbox">
+                            <a class="btn btn-primary" href="{% url 'users' %}">Liste des Utilisateurs<i class="fa fa-list ml-1"></i></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="col-md-12 col-sm-12">
+                {% if messages %}
+                <ol>
+                    {% for message in messages %}
+                    <li class="text-white h6 {%if message.level == 25 %}message alert alert-success {%elif message.level == 40 %} message alert alert-danger {% endif %}">
+                        {{message}}
+                    </li>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+            </div>
+            <div class="x_content">
+                <form action="" class="" enctype="multipart/form-data" method="post" novalidate="">
+                    {% csrf_token %}
+
+                    <!--                    <span class="section"></span>-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="field  form-group">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Nom<span
+                                                class="required text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.last_name|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field  form-group">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Prénom<span
+                                                class="required text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.first_name|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field  form-group">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">nom d'utilisateur<span
+                                                class="required text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.username|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label ">Téléphone 1<span
+                                                class="required text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.phone1_reader|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Téléphone 2</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.phone2_reader|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Piece</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.image_piece_reader|as_crispy_field }}
+                                    </div>
+                                    {% if err_mess %}
+                                    <div class="col-md-12 col-sm-12 text-danger">
+                                        {{ err_mess }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <label class="col-form-label">Type de la piece d'identité<span
+                                        class="required text-danger">*</span></label>
+                                <div class="col-md-12 col-sm-12">
+                                    {{ Form.type_piece_reader|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Numéro de la Piece<span
+                                                class="required text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.number_piece_reader|as_crispy_field }}
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Email<span
+                                                class="required text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.email|as_crispy_field }}
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Genre<span
+                                                class="required text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.gender_reader|as_crispy_field }}
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Adresse<span
+                                                class="required text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.address_reader|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="col-md-6 m-0">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 ">
+                                        <div class="col-md-12 text-left  row ">
+                                            {{ Form.is_superuser|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Photo du Lecteur</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        {{ Form.image_reader|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="field form-group ">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="col-form-label">Point de Lecture<span
+                                                class="required text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-12  col-sm-12 ">
+                                        <select class="form-control" id="readpoint_id" name="readpoint">
+                                            <option value="">Sélectionnez un point de lecture</option>
+                                            {%for readpoint in form_readpoint%}
+                                            <option {%if readpoint.pk == readpoint_selected%} selected{%endif%} value="{{readpoint.pk}}" >nom:
+                                                {{readpoint.name_readpoint}} Commune: {{readpoint.commune_readpoint}}
+                                                Quartier: {{readpoint.quartier_readpoint}}
+                                            </option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ln_solid">
+                        <div class="form-group  p-3">
+                            <div class="col-md-12 text-right">
+                                <a class="btn btn-sm btn-danger" href="{% url 'readers' %}">Annuler</a>
+                                 <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .label-align{
+        font-size: 1.2rem;
+    }
+
+
+
+</style>
+{% endblock content %}
+
+
+
+
+
