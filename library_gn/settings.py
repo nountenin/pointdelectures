@@ -150,6 +150,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+DISABLE_COLLECTSTATIC=1
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST_USER = 'bahs54257@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
